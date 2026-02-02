@@ -3,70 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Vote!</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f3f4f6;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+
+    img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .pogi {
+      background: #22c55e;
+      color: white;
+    }
+
+    .masarap {
+      background: #ef4444;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <header class="navbar">
-    <h1 class="logo">MyPortfolio</h1>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+  <div class="container">
+    <img src="./Untitled.png" alt="Image" />
+    <h2>Vote mo na 👇</h2>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h2>Hi, I'm <span>John Doe</span></h2>
-    <p>Frontend Developer | Web Designer</p>
-    <button>Download CV</button>
-  </section>
-
-  <!-- About -->
-  <section id="about" class="section">
-    <h2>About Me</h2>
-    <p>
-      I am a passionate web developer who loves building clean and responsive
-      websites using HTML, CSS, and JavaScript.
-    </p>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects" class="section">
-    <h2>Projects</h2>
-
-    <div class="projects">
-      <div class="card">
-        <h3>Project One</h3>
-        <p>Simple landing page using HTML & CSS.</p>
-      </div>
-
-      <div class="card">
-        <h3>Project Two</h3>
-        <p>Portfolio website with responsive design.</p>
-      </div>
-
-      <div class="card">
-        <h3>Project Three</h3>
-        <p>Basic JavaScript web app.</p>
-      </div>
+    <div class="buttons">
+      <button class="pogi">Pogi 😎</button>
+      <button class="masarap">Masarap 🤤</button>
     </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="section">
-    <h2>Contact Me</h2>
-    <p>Email: johndoe@email.com</p>
-    <p>GitHub: github.com/johndoe</p>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2026 John Doe. All rights reserved.</p>
-  </footer>
+  </div>
 
 </body>
 </html>
