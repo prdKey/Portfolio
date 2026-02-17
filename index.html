@@ -2,82 +2,924 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vote!</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Triple B Portfolio — Bading Bisaya Bobo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
   <style>
+    :root {
+      --red:    #FF2D55;
+      --orange: #FF6B1A;
+      --yellow: #FFD600;
+      --green:  #00C853;
+      --blue:   #0066FF;
+      --violet: #9B27AF;
+      --pink:   #FF4FA3;
+      --cream:  #FFF8F0;
+      --dark:   #0D0A12;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      margin: 0;
-      height: 100vh;
+      background: var(--dark);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--pink);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, background 0.3s;
+      mix-blend-mode: exclusion;
+    }
+
+    /* ── RAINBOW STRIPE TOP ── */
+    .rainbow-stripe {
+      height: 7px;
+      background: linear-gradient(90deg,
+        var(--red) 0%, var(--red) 16.6%,
+        var(--orange) 16.6%, var(--orange) 33.2%,
+        var(--yellow) 33.2%, var(--yellow) 49.8%,
+        var(--green) 49.8%, var(--green) 66.4%,
+        var(--blue) 66.4%, var(--blue) 83%,
+        var(--violet) 83%, var(--violet) 100%
+      );
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0;
+      z-index: 100;
+      background: rgba(13,10,18,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 16px 48px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      background: #f3f4f6;
-      font-family: Arial, Helvetica, sans-serif;
+      justify-content: space-between;
     }
 
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      width: 320px;
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.15em;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    img {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 20px;
+    nav ul { list-style: none; display: flex; gap: 32px; }
+    nav a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
     }
+    nav a:hover { color: var(--pink); }
 
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    .buttons {
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
       display: flex;
-      gap: 15px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 40%, rgba(255,79,163,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 80% 60%, rgba(0,102,255,0.10) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 50% 20%, rgba(155,39,175,0.10) 0%, transparent 70%);
+    }
+
+    /* Floating blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.18;
+      animation: float 8s ease-in-out infinite;
+    }
+    .blob-1 { width: 400px; height: 400px; background: var(--pink);   top: -100px; left: -100px; animation-delay: 0s; }
+    .blob-2 { width: 300px; height: 300px; background: var(--violet); bottom: 0;   right: -80px; animation-delay: -3s; }
+    .blob-3 { width: 250px; height: 250px; background: var(--yellow); top: 40%;   left: 60%;    animation-delay: -5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-30px) scale(1.05); }
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 20px;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 10vw, 100px);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    .hero-title .line-pride {
+      display: block;
+      background: linear-gradient(90deg, var(--red), var(--orange), var(--yellow), var(--green), var(--blue), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200%;
+      animation: shimmer 4s linear infinite, fadeUp 0.7s 0.1s ease both;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(14px, 2.5vw, 18px);
+      color: rgba(255,255,255,0.45);
+      max-width: 520px;
+      margin: 24px auto 40px;
+      line-height: 1.7;
+      font-weight: 300;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-subtitle b { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+    .hero-badges {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .badge {
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      border: 1px solid;
+    }
+    .badge-pink   { border-color: var(--pink);   color: var(--pink);   background: rgba(255,79,163,0.1); }
+    .badge-blue   { border-color: var(--blue);   color: var(--blue);   background: rgba(0,102,255,0.1); }
+    .badge-yellow { border-color: var(--yellow); color: var(--yellow); background: rgba(255,214,0,0.1); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.2);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: fadeUp 1s 0.8s ease both;
+    }
+
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--pink), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; }
+      50%       { opacity: 1; }
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 100px 24px; }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: white;
+    }
+
+    .section-title i { font-style: italic; color: var(--pink); }
+
+    /* ── ABOUT ── */
+    .about-wrap {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .about-card {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, rgba(255,79,163,0.2), rgba(155,39,175,0.2));
+      border: 1px solid rgba(255,79,163,0.2);
+      display: flex;
+      align-items: center;
       justify-content: center;
     }
 
-    button {
-      padding: 10px 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
+    .about-card-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 40px;
+      text-align: center;
     }
 
-    .pogi {
-      background: #22c55e;
+    .avatar-ring {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--violet), var(--blue));
+      padding: 3px;
+      animation: spin 8s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .avatar-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: #1a1020;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+    }
+
+    .about-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .pride-flag {
+      display: flex;
+      width: 80px; height: 12px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .pride-flag div { flex: 1; }
+
+    .about-text {
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    .about-text b { color: white; font-weight: 500; }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .stat-box {
+      border-radius: 16px;
+      padding: 20px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── SKILLS ── */
+    .skills-section {
+      background: rgba(255,255,255,0.015);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .skills-inner { max-width: 1100px; margin: 0 auto; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .skill-card {
+      border-radius: 20px;
+      padding: 28px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: transform 0.3s ease, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 3px 3px 0 0;
+    }
+
+    .skill-card:hover { transform: translateY(-4px); }
+
+    .skill-card.c1::before { background: linear-gradient(90deg, var(--red), var(--orange)); }
+    .skill-card.c2::before { background: linear-gradient(90deg, var(--yellow), var(--green)); }
+    .skill-card.c3::before { background: linear-gradient(90deg, var(--blue), var(--violet)); }
+    .skill-card.c4::before { background: linear-gradient(90deg, var(--pink), var(--red)); }
+
+    .skill-card:hover.c1 { border-color: rgba(255,107,26,0.3); }
+    .skill-card:hover.c2 { border-color: rgba(0,200,83,0.3); }
+    .skill-card:hover.c3 { border-color: rgba(0,102,255,0.3); }
+    .skill-card:hover.c4 { border-color: rgba(255,79,163,0.3); }
+
+    .skill-icon { font-size: 32px; margin-bottom: 14px; }
+
+    .skill-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .skill-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+    }
+
+    .skill-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-inner { max-width: 1100px; margin: 0 auto; }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .project-card {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: transform 0.3s ease;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .project-card:hover { transform: translateY(-6px); }
+
+    .project-thumb {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-thumb::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(13,10,18,0.8));
+    }
+
+    .project-body { padding: 24px; }
+
+    .project-cat {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--pink);
+      margin-bottom: 8px;
+    }
+
+    .project-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .project-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+    }
+
+    .project-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .project-link {
+      font-size: 11px;
+      color: var(--pink);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .project-link:hover { text-decoration: underline; }
+
+    /* ── MANIFESTO / PRIDE BANNER ── */
+    .manifesto {
+      padding: 80px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .manifesto::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg,
+        rgba(255,45,85,0.08),
+        rgba(255,107,26,0.06),
+        rgba(255,214,0,0.06),
+        rgba(0,200,83,0.06),
+        rgba(0,102,255,0.08),
+        rgba(155,39,175,0.08)
+      );
+    }
+
+    .manifesto-inner { position: relative; max-width: 800px; margin: 0 auto; }
+
+    .manifesto-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 4vw, 40px);
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .manifesto-quote span {
+      background: linear-gradient(90deg, var(--pink), var(--yellow), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200%;
+      animation: shimmer 4s linear infinite;
+    }
+
+    .manifesto-author {
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* ── CONTACT ── */
+    .contact-section { background: rgba(255,255,255,0.015); border-top: 1px solid rgba(255,255,255,0.05); }
+    .contact-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+
+    .contact-inner .section-title { margin-bottom: 16px; }
+
+    .contact-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 16px 48px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
       color: white;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 0 40px rgba(255,79,163,0.3);
     }
 
-    .masarap {
-      background: #ef4444;
-      color: white;
+    .cta-btn:hover { opacity: 0.9; transform: scale(1.04); }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+      flex-wrap: wrap;
     }
 
-    button:hover {
-      opacity: 0.85;
+    .social-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .social-chip:hover { border-color: var(--pink); color: var(--pink); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.2em;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    footer p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.1em;
+    }
+
+    .rainbow-bar {
+      height: 3px;
+      width: 80px;
+      margin: 12px auto;
+      background: linear-gradient(90deg, var(--red), var(--orange), var(--yellow), var(--green), var(--blue), var(--violet));
+      border-radius: 3px;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      nav ul { gap: 16px; }
+      .about-wrap { grid-template-columns: 1fr; gap: 32px; }
+      .about-card { aspect-ratio: auto; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <img src="./Untitled.png" alt="Image" />
-    <h2>Vote mo na 👇</h2>
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
 
-    <div class="buttons">
-      <button class="pogi">Pogi 😎</button>
-      <button class="masarap">Masarap 🤤</button>
+  <!-- Rainbow top stripe -->
+  <div class="rainbow-stripe"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Triple B ✦</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="hero-eyebrow">✦ Bading · Bisaya · Bobo · Proud ✦</div>
+    <h1 class="hero-title">
+      <span class="line-pride">Unapologetically</span>
+      Me.
+    </h1>
+    <p class="hero-subtitle">
+      <b>Creative. Queer. Filipino.</b><br/>
+      A Bisaya bading building beautiful things — and owning every bit of it with pride, humor, and heart.
+    </p>
+    <div class="hero-badges">
+      <span class="badge badge-pink">🏳️‍🌈 Proud & Loud</span>
+      <span class="badge badge-blue">💻 Creative Dev</span>
+      <span class="badge badge-yellow">🇵🇭 Bisaya Ako</span>
     </div>
-  </div>
 
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-wrap">
+      <div class="about-card">
+        <div class="about-card-inner">
+          <div class="avatar-ring">
+            <div class="avatar-inner">🦋</div>
+          </div>
+          <div class="about-name">Ako Si Bading</div>
+          <div class="pride-flag">
+            <div style="background:#FF2D55"></div>
+            <div style="background:#FF6B1A"></div>
+            <div style="background:#FFD600"></div>
+            <div style="background:#00C853"></div>
+            <div style="background:#0066FF"></div>
+            <div style="background:#9B27AF"></div>
+          </div>
+          <p style="font-size:13px; color:rgba(255,255,255,0.4); line-height:1.6;">
+            "Dili ko maulawan sa akong kaugalingon.<br/>Proud Bisaya bading ko."
+          </p>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title">
+          More than a label —<br/>
+          I'm a <i>story.</i>
+        </h2>
+        <p class="about-text" style="margin-top:20px;">
+          Hey! I'm a <b>proud gay Filipino</b> from the Visayas region. I wear the Triple B badge — Bading, Bisaya, Bobo — not as an insult, but as a battle cry. It's the humor, warmth, and raw honesty that makes our community so beautifully human.
+        </p>
+        <p class="about-text" style="margin-top:14px;">
+          I create, I connect, and I celebrate. Whether it's through <b>design, code, art, or conversation</b>, I pour my full queer self into everything I do — for the Filipino LGBTQ+ community and beyond.
+        </p>
+
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Authentic</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Pride</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">1</div>
+            <div class="stat-label">Of a Kind</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="skills-section">
+    <div class="skills-inner">
+      <div class="section-label">What I Do</div>
+      <h2 class="section-title">Skills & <i>Pasabels</i></h2>
+      <div class="skills-grid">
+        <div class="skill-card c1">
+          <div class="skill-icon">🎨</div>
+          <div class="skill-title">Visual Design</div>
+          <div class="skill-desc">Crafting visuals that are bold, expressive, and unmistakably fabulous.</div>
+          <div class="skill-tags">
+            <span class="tag">Figma</span>
+            <span class="tag">Canva</span>
+            <span class="tag">Typography</span>
+          </div>
+        </div>
+        <div class="skill-card c2">
+          <div class="skill-icon">💻</div>
+          <div class="skill-title">Web Development</div>
+          <div class="skill-desc">Building interactive, accessible, and beautiful web experiences from scratch.</div>
+          <div class="skill-tags">
+            <span class="tag">HTML/CSS</span>
+            <span class="tag">React</span>
+            <span class="tag">Tailwind</span>
+          </div>
+        </div>
+        <div class="skill-card c3">
+          <div class="skill-icon">🎤</div>
+          <div class="skill-title">Community Voice</div>
+          <div class="skill-desc">Amplifying LGBTQ+ stories, advocating for inclusion, and spreading love — in Bisaya and beyond.</div>
+          <div class="skill-tags">
+            <span class="tag">Advocacy</span>
+            <span class="tag">Storytelling</span>
+            <span class="tag">Bisaya</span>
+          </div>
+        </div>
+        <div class="skill-card c4">
+          <div class="skill-icon">✨</div>
+          <div class="skill-title">Content Creation</div>
+          <div class="skill-desc">Humor, heart, and honesty — content that resonates with the bading in all of us.</div>
+          <div class="skill-tags">
+            <span class="tag">Video</span>
+            <span class="tag">Copy</span>
+            <span class="tag">Social Media</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="projects-inner">
+      <div class="section-label">Work & Projects</div>
+      <h2 class="section-title">Things I've <i>Made</i></h2>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <div class="project-thumb" style="background: linear-gradient(135deg, rgba(255,45,85,0.3), rgba(155,39,175,0.3));">🏳️‍🌈</div>
+          <div class="project-body">
+            <div class="project-cat">Community</div>
+            <div class="project-title">Pride sa Visayas</div>
+            <div class="project-desc">An online platform celebrating LGBTQ+ Bisaya stories, culture, and advocacy. Dili lang Manila ang may pride.</div>
+            <div class="project-footer">
+              <span style="font-size:11px; color:rgba(255,255,255,0.25);">2025</span>
+              <a href="#" class="project-link">View Project →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-thumb" style="background: linear-gradient(135deg, rgba(0,102,255,0.3), rgba(0,200,83,0.3));">🎨</div>
+          <div class="project-body">
+            <div class="project-cat">Design</div>
+            <div class="project-title">Queer Color Series</div>
+            <div class="project-desc">A digital art series exploring Filipino LGBTQ+ identity through vibrant, culturally-rooted visual language.</div>
+            <div class="project-footer">
+              <span style="font-size:11px; color:rgba(255,255,255,0.25);">2025</span>
+              <a href="#" class="project-link">View Series →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-thumb" style="background: linear-gradient(135deg, rgba(255,214,0,0.3), rgba(255,107,26,0.3));">💬</div>
+          <div class="project-body">
+            <div class="project-cat">Content</div>
+            <div class="project-title">Bading Bisaya Bobo Podcast</div>
+            <div class="project-desc">Weekly conversations about life as a queer Filipino — funny, raw, real. In Bisaya, Tagalog, at konting English.</div>
+            <div class="project-footer">
+              <span style="font-size:11px; color:rgba(255,255,255,0.25);">Ongoing</span>
+              <a href="#" class="project-link">Listen →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto">
+    <div class="manifesto-inner">
+      <div class="section-label" style="text-align:center;">Pride Manifesto</div>
+      <div class="manifesto-quote">
+        "Being gay is not a choice —<br/>
+        but <span>being proudly, loudly, beautifully yourself</span><br/>
+        is the best one you'll ever make."
+      </div>
+      <div class="manifesto-author">— Triple B · Bading Bisaya Bobo</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact-section">
+    <div class="contact-inner">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">Let's <i>Connect</i></h2>
+      <p class="contact-sub">
+        Collaborations, community projects, creative work, or just to say — <em>Kumusta bading!</em> My inbox is always open.
+      </p>
+      <a href="mailto:hello@triplebportfolio.ph" class="cta-btn">Say Hello ✦</a>
+      <div class="socials">
+        <a href="#" class="social-chip">📸 Instagram</a>
+        <a href="#" class="social-chip">🎵 TikTok</a>
+        <a href="#" class="social-chip">🐦 Twitter / X</a>
+        <a href="#" class="social-chip">💼 LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">TRIPLE B ✦</div>
+    <div class="rainbow-bar"></div>
+    <p>Bading · Bisaya · Bobo · Proud · Filipino</p>
+    <p style="margin-top:6px;">Made with 🏳️‍🌈 and a lot of pagmahal · © 2026</p>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(2.2)';
+        cursor.style.background = '#FFD600';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursor.style.background = 'var(--pink)';
+      });
+    });
+
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.skill-card, .project-card, .stat-box').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
